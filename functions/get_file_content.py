@@ -5,7 +5,7 @@ MAX_CHARACTERS = 10000  #Temporary hardcode to circumvent unittest discovery com
 
 def get_file_content(working_directory, file_path):
     absolute_path = os.path.join(working_directory, file_path)
-    print(os.path.abspath(absolute_path))
+    #print(os.path.abspath(absolute_path))
     if not str(os.path.abspath(absolute_path)).startswith(os.path.abspath(working_directory)): ###if not has same effect as ==False
         print(f'Error: Cannot read "{file_path}" as it is outside the permitted working directory')
         return f'Error: Cannot read "{file_path}" as it is outside the permitted working directory'

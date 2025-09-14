@@ -11,3 +11,4 @@ wheels/
 .env
 calculator
 EEEE.py
+custom_error_attempt.py
