@@ -6,15 +6,17 @@ def run_python_file(working_directory, file_path, args=[]):
     if not isinstance(working_directory, str) or not isinstance(file_path, str):
         #print('Error: first two arguments for run_python_file must be strings.')
         return 'Error: first two arguments for run_python_file must be strings.'
-    absolute_workdir = os.path.abspath(working_directory)
-    basic_path = os.path.join(working_directory, file_path)
-    absolute_path = os.path.abspath(basic_path) #### This seems to be a more accurate structure to accomplish the intended outcome
+    #absolute_workdir = os.path.abspath(working_directory)
+    #basic_path = os.path.join(working_directory, file_path)
+    #absolute_path = os.path.abspath(basic_path) #### This seems to be a more accurate structure to accomplish the intended outcome
     #print(f'{absolute_workdir}\n{basic_path}\n{absolute_path}')    #####Apply to other functions
+
+    absolute_path = os.path.abspath(os.path.join(working_directory, file_path)) ####Actually, use this structure
     
     try:
 
 
-        if absolute_workdir not in absolute_path:
+        if not absolute_path.startswith(os.path.abspath(working_directory)):
             #print (f'Error: Cannot run "{file_path}" as it is outside the permitted working directory')
             return f'Error: Cannot execute "{file_path}" as it is outside the permitted working directory'
         elif not os.path.exists(absolute_path):

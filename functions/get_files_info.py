@@ -1,5 +1,21 @@
 import os
 import sys
+from google import genai
+from google.genai import types
+
+schema_get_files_info = types.FunctionDeclaration(
+    name="get_files_info",
+    description="Lists files in the specified directory along with their sizes, constrained to the working directory.",
+    parameters=types.Schema(
+        type=types.Type.OBJECT,
+        properties={
+            "directory": types.Schema(
+                type=types.Type.STRING,
+                description="The directory to list files from, relative to the working directory. If not provided, lists files in the working directory itself.",
+            ),
+        },
+    ),
+)
 
 def get_files_info(working_directory, directory="."):
     if not isinstance(working_directory,str) or not isinstance(directory,str):
@@ -14,7 +30,7 @@ def get_files_info(working_directory, directory="."):
     else:
         string_out.append(f'Result for "{directory_path}":\n') #### setup if: '.' use working_dir name, else use dir_path
 
-    if os.path.abspath(directory_path).startswith(os.path.abspath(working_directory)) == False:
+    if not os.path.abspath(directory_path).startswith(os.path.abspath(working_directory)):
         print(f'Error: Cannot list "{directory}" as it is outside the permitted working directory')
         return f'Error: Cannot list "{directory}" as it is outside the permitted working directory'
         #raise SystemExit(f'Error: Cannot list "{directory}" as it is outside the permitted working directory')

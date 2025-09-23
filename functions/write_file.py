@@ -8,13 +8,11 @@ def write_file(working_directory, file_path, content):
         print('Error: all arguments for write_file() must be strings.')
         return 'Error: all arguments for write_file() must be strings.'
     absolute_workdir = os.path.abspath(working_directory)
-    #print(os.path.isdir(absolute_workdir))
     basic_path = os.path.join(working_directory, file_path)
-    #print(basic_path)
-    absolute_path = os.path.join(absolute_workdir, file_path)
+    absolute_path = os.path.abspath(basic_path)
     #print(absolute_path)
     
-    if not str(absolute_path).startswith(absolute_workdir):
+    if absolute_workdir not in absolute_path:
         print(f'Error: Cannot write to "{file_path}" as it is outside the permitted working directory')
         return f'Error: Cannot write to "{file_path}" as it is outside the permitted working directory'
     
