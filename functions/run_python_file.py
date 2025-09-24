@@ -15,7 +15,7 @@ schema_run_python_file = types.FunctionDeclaration(
                 description="The path of a python file, relative to the working directory. This is the file that will be run.",
             ),
             "args": types.Schema(
-                type=types.Type.ARRAY,
+                type=types.Type.STRING,
                 description="Provides additional optional command line arguments for the Python file that will be run.")
         },
     ),
@@ -52,9 +52,11 @@ def run_python_file(working_directory, file_path, args=[]):
        
         if args == []:
             file_out = subprocess.run(f"python3 {working_directory}/{file_path}",capture_output=True, shell=True, timeout=30, text=True)
+            #print(file_out)
         else:
             args = " ".join(args)
             file_out = subprocess.run(f"python3 {working_directory}/{file_path} {args}", capture_output=True, shell=True, timeout=30, text=True)
+        #print(file_out)
     
         if file_out == None:
             return "No output produced"
@@ -73,4 +75,4 @@ def run_python_file(working_directory, file_path, args=[]):
     
     #print(os.path.abspath(file_path))
 
-#run_python_file("calculator", "main", ["5 + 4"])
+run_python_file("calculator", "main", ["5 + 4"])
