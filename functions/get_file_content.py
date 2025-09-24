@@ -5,7 +5,19 @@ from google import genai
 from google.genai import types  #Needed for Schema
 MAX_CHARACTERS = 10000  #Temporary hardcode to circumvent unittest discovery complications
 
-
+schema_get_file_content = types.FunctionDeclaration(
+    name="get_file_content",
+    description="Reads files and returns their contents up to a maximum character length, constrained to the working directory.",
+    parameters=types.Schema(
+        type=types.Type.OBJECT,
+        properties={
+            "file_path": types.Schema(
+                type=types.Type.STRING,
+                description="The file path relative to the working directory that will be have its contents displayed.",
+            ),
+        },
+    ),
+)
 
 def get_file_content(working_directory, file_path):
     absolute_path = os.path.abspath(os.path.join(working_directory, file_path))

@@ -1,6 +1,26 @@
 
 import os
 import subprocess
+from google import genai
+from google.genai import types
+
+schema_run_python_file = types.FunctionDeclaration(
+    name="run_python_file",
+    description="Runs Python files and returns their output as well as their exit code if it is not 0. Constrained to working directory.",
+    parameters=types.Schema(
+        type=types.Type.OBJECT,
+        properties={
+            "file_path": types.Schema(
+                type=types.Type.STRING,
+                description="The path of a python file, relative to the working directory. This is the file that will be run.",
+            ),
+            "args": types.Schema(
+                type=types.Type.ARRAY,
+                description="Provides additional optional command line arguments for the Python file that will be run.")
+        },
+    ),
+)
+
 
 def run_python_file(working_directory, file_path, args=[]):
     if not isinstance(working_directory, str) or not isinstance(file_path, str):

@@ -1,7 +1,27 @@
 import os
 import sys
+from google import genai
+from google.genai import types
     
 #EC == Error Catch, go back to other functions and resolve errors in established format <Error: *>
+
+schema_write_file = types.FunctionDeclaration(
+    name="write_file",
+    description="Writes string data to a file specified by file_path. Constrained to the current working directory",
+    parameters=types.Schema(
+        type=types.Type.OBJECT,
+        properties={
+            "file_path": types.Schema(
+                type=types.Type.STRING,
+                description="The file path relative to the working directory that will be written to. If the file does not exist it will be created. If the file exists its current contents will be overwritten.",
+            ),
+            "content": types.Schema(
+                type=types.Type.STRING,
+                description="The string data that is to be written to the file specified by file_path."
+            )
+        },
+    ),
+)
 
 def write_file(working_directory, file_path, content):
     if not isinstance(working_directory, str) or not isinstance(file_path, str) or not isinstance(content, str):

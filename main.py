@@ -7,6 +7,9 @@ the_key=os.environ.get("GEMINI_API_KEY")
 from google import genai   #For basic functionality
 from google.genai import types #Facilitates storage and use of conversations for LLM
 from functions.get_files_info import schema_get_files_info
+from functions.get_file_content import schema_get_file_content
+from functions.write_file import schema_write_file
+from functions.run_python_file import schema_run_python_file
 
 def main(): #REMINDER: sys.argv is structured as a list
     if len(sys.argv) < 2 or len(sys.argv[1]) < 3: 
@@ -18,6 +21,9 @@ You are a helpful AI coding agent.
 When a user asks a question or makes a request, make a function call plan. You can perform the following operations:
 
 - List files and directories
+- Read file contents
+- Write or overwrite files
+- Execute Python files with optional arguments
 
 All paths you provide should be relative to the working directory. You do not need to specify the working directory in your function calls as it is automatically injected for security reasons.
 """
@@ -25,6 +31,9 @@ All paths you provide should be relative to the working directory. You do not ne
     available_functions = types.Tool(
         function_declarations=[
             schema_get_files_info,
+            schema_get_file_content,
+            schema_write_file,
+            schema_run_python_file   
         ]
     )
     
