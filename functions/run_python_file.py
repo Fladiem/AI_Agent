@@ -35,7 +35,6 @@ def run_python_file(working_directory, file_path, args=[]):
     
     try:
 
-
         if not absolute_path.startswith(os.path.abspath(working_directory)):
             #print (f'Error: Cannot run "{file_path}" as it is outside the permitted working directory')
             return f'Error: Cannot execute "{file_path}" as it is outside the permitted working directory'
@@ -75,4 +74,4 @@ def run_python_file(working_directory, file_path, args=[]):
     
     #print(os.path.abspath(file_path))
 
-run_python_file("calculator", "main", ["5 + 4"])
+#run_python_file("calculator", "main", ["5 + 4"])
