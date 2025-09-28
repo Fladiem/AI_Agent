@@ -13,7 +13,7 @@ schema_get_file_content = types.FunctionDeclaration(
         properties={
             "file_path": types.Schema(
                 type=types.Type.STRING,
-                description="The file path relative to the working directory that will be have its contents displayed.",
+                description="The file path relative to the working directory that will have its contents displayed.",
             ),
         },
     ),
