@@ -13,7 +13,7 @@ from functions.run_python_file import schema_run_python_file, run_python_file
 
 def call_function(function_call_part, verbose=False):
     if verbose == True:
-        print(f'calling function:{function_call_part.name}({function_call_part.args})')
+        print(f'calling function: {function_call_part.name}({function_call_part.args})')
     else:
         print(f' - Calling function: {function_call_part.name}')
     
@@ -84,7 +84,7 @@ All paths you provide should be relative to the working directory. You do not ne
     calls_list = []
     verbose_switch = False
     
-    if len(sys.argv) > 2 and sys.argv[2] == "--verbose":
+    if len(sys.argv) > 2 and sys.argv[2] == "--verbose":  #main.py - 1, prompt - 2, --verbose - 3
         verbose_switch = True
 
     iterations = 0   #initializing counter for while loop
@@ -103,13 +103,13 @@ All paths you provide should be relative to the working directory. You do not ne
 
     #(LLMstuff.content.parts[0].text)
             if response.candidates != []:
-                for LLMstuff in response.candidates: #Adds responses to messages list
+                for LLMstuff in response.candidates: #Adds full response candidates content to messages list
                 
                     messages.append(LLMstuff.content) 
             #.parts[0].function_response.response  #4444   
             if response.function_calls:
                 try:
-                    call = response.function_calls #function_calls is a list, so its lone entry, an object of the class Types, must first be accessed.
+                    call = response.function_calls 
                     for execution in call:
                         #print("execution:", execution)   
                         calls_list.append([execution.name, execution.args])
@@ -119,17 +119,18 @@ All paths you provide should be relative to the working directory. You do not ne
                             types.Part(
                                 function_response=types.FunctionResponse(
                                     name=execution.name,
-                                    response=func_result.parts[0].function_response.response
+                                    response=func_result.parts[0].function_response.response  
                                 )
                             )
-                        ]))
-                        if verbose_switch == True: ## This is handled in call_function
+                        ]))  #function_calls is a list, so its lone entry, an object of the class Types, must first be accessed.
+
+                        if verbose_switch == True: 
                             print(f'-> {func_result.parts[0].function_response.response}')
                     #print(f"message1: Role: {messages[-2].role} Part: {messages[-2].parts}")
                     #print(f"message2: Role: {messages[-1].role} Part: {messages[-1].parts}")
                         
                 except Exception as ee:
-                    print(f"Error: {ee}), {calls_list}")  #4444
+                    print(f"If Call Error: {ee}), {calls_list}")  #4444
                     pass
             
             else:
@@ -141,7 +142,6 @@ All paths you provide should be relative to the working directory. You do not ne
                         #if verbose_switch and calls_list != []:
                             #print(f'-> all calls: {calls_list}') #Print all calls before response generation.
                     print("Final response:\n", response.text)
-                    #previous location of verbose_switch
                     
                     break
     except Exception as eee:
@@ -150,6 +150,7 @@ All paths you provide should be relative to the working directory. You do not ne
 # uv run main.py "show me the contents of lorem.txt" --verbose
 # uv run main.py "show me the contents of README.md" --verbose
 # uv run main.py "explain how the calculator renders the result to the console." --verbose
+# uv run main.py "Fix the bug in calculator: 3 + 7 * 2 should not be 20" --verbose
 if __name__ == "__main__":
     main()
 
